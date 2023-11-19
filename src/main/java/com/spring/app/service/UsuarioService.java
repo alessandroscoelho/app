@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.spring.app.domain.Usuario;
 import com.spring.app.exception.ObjectNotFoundExcepetion;
 import com.spring.app.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UsuarioService {
@@ -21,6 +22,15 @@ public class UsuarioService {
 
 	public List<Usuario> findAll() {
 		return usuarioRepository.findAll();
+	}
+
+	@Transactional
+	public Usuario update(Integer id, Usuario obj) {
+		Usuario newObj = findById(id);
+		newObj.setNome(obj.getNome());
+		newObj.setLogin(obj.getLogin());
+		newObj.setSenha(obj.getSenha());
+		return usuarioRepository.save(newObj);
 	}
 
 }
